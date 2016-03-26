@@ -21,9 +21,6 @@
     "test:unit": "./scripts/test:unit",
     "test": "./scripts/test"
   },
-  "engines": {
-    "node": ">= 4.0.0"
-  },
   "dependencies": {
     "lodash": "^4.0.0",
     "unique-type": "^1.0.0"
