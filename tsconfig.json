@@ -2,20 +2,29 @@
   "compilerOptions": {
     "charset": "utf-8",
     "declaration": true,
+    "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "module": "commonjs",
     "newLine": "LF",
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
     "noImplicitReturns": true,
     "outDir": "./dist/",
     "pretty": true,
-    "target": "es2015"
+    "target": "es5"
   },
   // Until https://github.com/Microsoft/TypeScript/pull/5980 lands, this must be
   // filled in manually.
   "files": [
     "src/index.ts",
+    "src/Interactions.ts",
+    "src/reducer.ts",
+    "test/env/base.ts",
+    "test/env/unit.ts",
+    "test/helpers/index.ts",
+    "test/unit/Interactions.ts",
+    "test/unit/reducer.ts",
+    "typings/custom/function-name.d.ts",
+    "typings/custom/unit-test-environment.d.ts",
     "typings/main.d.ts"
   ]
 }

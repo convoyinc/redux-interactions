@@ -2,3 +2,4 @@
 set -e
 
 ./scripts/test:style
+./scripts/test:unit

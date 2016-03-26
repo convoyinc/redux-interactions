@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -e
+
+FILES=("${@}")
+if [[ "${#FILES[@]}" = "0" ]]; then
+  FILES+=($(find test/unit -name "*.ts"))
+fi
+
+OPTIONS=()
+if [[ "${CIRCLE_TEST_REPORTS}" != "" ]]; then
+  OPTIONS+=(
+    --reporter mocha-circleci-reporter
+    --reporter-options mochaFile="${CIRCLE_TEST_REPORTS}"/test:unit.xml
+  )
+fi
+
+./node_modules/.bin/mocha \
+  "${OPTIONS[@]}" \
+  --require ts-node/register \
+  --require ./test/env/unit.ts \
+  "${FILES[@]}"

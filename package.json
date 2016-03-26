@@ -1,31 +1,40 @@
 {
-  "name": "combined-reduction",
+  "name": "redux-interactions",
   "version": "1.0.0",
-  "description": "Like Redux's combineReducers, but more better!",
-  "homepage": "https://github.com/convoyinc/combined-reduction",
-  "bugs": "https://github.com/convoyinc/combined-reduction/issues",
+  "description": "A streamlined approach to managing your Redux action creators and reducers.",
+  "homepage": "https://github.com/convoyinc/redux-interactions",
+  "bugs": "https://github.com/convoyinc/redux-interactions/issues",
   "license": "Apache-2.0",
-  "repository": "convoyinc/combined-reduction",
-  "main": "./dist/index.js",
-  "typings": "./dist/index.d.ts",
+  "repository": "convoyinc/redux-interactions",
+  "main": "./dist/src/index.js",
+  "typings": "./dist/src/index.d.ts",
   "files": [
     "dist",
     "*.md"
   ],
   "scripts": {
+    "bump": "./scripts/bump",
     "clean": "./scripts/clean",
     "compile": "./scripts/compile",
     "prepublish": "./scripts/prepublish",
     "test:style": "./scripts/test:style",
+    "test:unit": "./scripts/test:unit",
     "test": "./scripts/test"
   },
   "engines": {
     "node": ">= 4.0.0"
   },
   "dependencies": {
+    "lodash": "^4.0.0",
     "unique-type": "^1.0.0"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "mocha-clean": "^1.0.0",
+    "sinon": "^1.17.3",
+    "sinon-chai": "^2.8.0",
+    "ts-node": "^0.7.1",
     "tslint": "3.6.0",
     "typescript": "1.8.9",
     "typings": "0.7.9"

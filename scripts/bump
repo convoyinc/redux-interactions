@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e
+
+BUMP_TYPE="${1}"
+
+npm version "${BUMP_TYPE}"
+npm publish
+git push
+git push tags --all

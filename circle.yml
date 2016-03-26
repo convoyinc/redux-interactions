@@ -4,3 +4,7 @@ test:
         parallel: true
         files:
           - src/**/*.ts
+    - npm run test:unit:
+        parallel: true
+        files:
+          - test/unit/**/*.ts

@@ -5,5 +5,12 @@
     "react-addons-update": "github:convoyinc/typed-react-addons-update#7965758e062e1e6014a5ee70ce316df2a0723740"
   },
   "devDependencies": {},
-  "ambientDependencies": {}
+  "ambientDependencies": {},
+  "ambientDevDependencies": {
+    "chai": "registry:dt/chai#3.4.0+20160317120654",
+    "mocha": "registry:dt/mocha#2.2.5+20160317120654",
+    "node": "registry:dt/node#4.0.0+20160319033040",
+    "sinon": "registry:dt/sinon#1.16.0+20160317120654",
+    "sinon-chai": "registry:dt/sinon-chai#2.7.0+20160317120654"
+  }
 }
