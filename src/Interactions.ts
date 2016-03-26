@@ -27,6 +27,8 @@ export default class Interactions {
       if (typeof this[name] !== 'function') continue;
       this[name] = this[name].bind(this);
     }
+    // As well as the public _instance_ API inherited from us.
+    this.reducer = this.reducer.bind(this);
   }
 
   /**

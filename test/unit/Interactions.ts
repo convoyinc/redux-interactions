@@ -127,6 +127,15 @@ describe(`Interactions`, () => {
       expect(instance.reducer(123, {type: instance['ADD'], args: [1, 2]})).to.eql(2);
     });
 
+    it(`is callable when detached from its instance`, () => {
+      class Simple extends Interactions {}
+      Simple.addInteractionReducer('add', s => s + 1);
+      const instance = new Simple;
+      const reducer = instance.reducer;
+
+      expect(reducer(1, {type: instance['ADD'], args: [1]})).to.eql(2);
+    });
+
   });
 
 });
