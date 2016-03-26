@@ -10,12 +10,12 @@ import * as types from './types';
  * https://github.com/convoyinc/redux-interactions
  */
 export default class Interactions {
-  defaultState:any;
+  initialState:any;
   // Set on the prototype, not instances.
   _interactionReducers:{[key:string]:types.Reducer};
 
   constructor() {
-    this.defaultState = Object.create(null);
+    this.initialState = Object.create(null);
 
     // Register the class as a property of the instance so it is "exported"
     // under normal use.
@@ -35,7 +35,7 @@ export default class Interactions {
    * Delegates to each interaction reducer registered for this class.
    */
   reducer(state:any, action:types.Action):any {
-    state = state === undefined ? this.defaultState : state;
+    state = state === undefined ? this.initialState : state;
     if (!this._interactionReducers) return state;
     const interactionReducer = this._interactionReducers[action.type];
     if (!interactionReducer) return state;

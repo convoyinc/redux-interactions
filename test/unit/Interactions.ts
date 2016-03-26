@@ -4,11 +4,11 @@ describe(`Interactions`, () => {
 
   describe(`constructor`, () => {
 
-    it(`defaults defaultState to an empty object`, () => {
+    it(`defaults initialState to an empty object`, () => {
       const instance = new class Simple extends Interactions {};
 
-      expect(instance.defaultState).to.eql({});
-      expect(Object.getPrototypeOf(instance.defaultState)).to.equal(null);
+      expect(instance.initialState).to.eql({});
+      expect(Object.getPrototypeOf(instance.initialState)).to.equal(null);
     });
 
     it(`exposes the class by its name`, () => {
@@ -102,9 +102,9 @@ describe(`Interactions`, () => {
       expect(instance.reducer(1, {type: 'foo'})).to.eql(1);
     });
 
-    it(`honors defaultState`, () => {
+    it(`honors initialState`, () => {
       const instance = new class Simple extends Interactions {
-        defaultState:number = 123;
+        initialState:number = 123;
       };
 
       expect(instance.reducer(undefined, {type: 'foo'})).to.eql(123);
