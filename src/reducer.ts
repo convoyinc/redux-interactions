@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 
 export type Decorator = (target:any, key:string, descriptor:PropertyDescriptor) => void;
 
+// TODO: https://github.com/Microsoft/TypeScript/issues/4881
 /**
  * Shorthand for calling `addInteractionReducer` on an `Interactions`.
  *
