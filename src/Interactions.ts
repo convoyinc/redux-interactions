@@ -25,10 +25,10 @@ export default class Interactions {
     for (const name of Object.getOwnPropertyNames(Object.getPrototypeOf(this))) {
       if (name === 'constructor') continue;
       if (typeof this[name] !== 'function') continue;
-      this[name] = this[name].bind(this);
+      this[name] = _bind(this, this[name]);
     }
     // As well as the public _instance_ API inherited from us.
-    this.reducer = this.reducer.bind(this);
+    this.reducer = _bind(this, this.reducer);
   }
 
   /**
@@ -74,4 +74,12 @@ export default class Interactions {
     };
   }
 
+}
+
+function _bind<T>(target:{}, method:T):T {
+  const bound = (<any>method).bind(target);
+  for (const name in method) {
+    bound[name] = method[name];
+  }
+  return bound;
 }
