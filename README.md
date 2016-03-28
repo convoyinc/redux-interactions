@@ -135,7 +135,7 @@ export default new class Todos extends Interactions {
   /**
    * Initial state for the subset of the store managed by these interactions.
    */
-  static initialState = [];
+  initialState = [];
 
   /**
    * Add a todo.
