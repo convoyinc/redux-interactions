@@ -53,10 +53,6 @@ export default class Interactions {
     this.prototype[name] = this._registerInteractionReducer(name, reducer);
   }
 
-  static _makeUniqueActionType(name:string):string {
-    return uniqueType(`${this.prototype.constructor.name}:${name}`);
-  }
-
   static _registerInteractionReducer(name:string, reducer:types.InteractionReducer, type?:string):types.PassthroughActionCreator {
     if (!type) {
       type = uniqueType(`${this.prototype.constructor.name}:${name}`);
