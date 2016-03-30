@@ -4,6 +4,8 @@ A streamlined approach to managing your [Redux](http://redux.js.org/) action cre
 
 For a TL;DR of what this package provides, you can skip down to [Streamlining The Pattern](#streamlining-the-pattern).
 
+If you wish to see it in practice, check out [`examples/todomvc-react`](./examples/todomvc-react).  You can run it locally by checking out this repository and running `npm run example`.
+
 
 ## A Pattern
 

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -e
+
+EXAMPLE="${1:-todomvc-react}"
+
+npm link
+cd ./examples/"${EXAMPLE}"
+npm link redux-interactions
+npm install
+npm start

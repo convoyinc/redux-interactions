@@ -16,6 +16,7 @@
     "bump": "./scripts/bump",
     "clean": "./scripts/clean",
     "compile": "./scripts/compile",
+    "example": "./scripts/example",
     "prepublish": "./scripts/prepublish",
     "test:style": "./scripts/test:style",
     "test:unit": "./scripts/test:unit",
