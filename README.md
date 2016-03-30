@@ -138,18 +138,18 @@ export default new class Todos extends Interactions {
   initialState = [];
 
   /**
-   * Add a todo.
+   * Add a todo, without involving the server.
    *
    * `@reducer` takes care of the boilerplate of state actions for you:
    *
    * 1. It generates a unique action type, based on the name of the interactions
-   * class and method.  In this case: `TODOS:ADD`.
+   * class and method.  In this case: `TODOS:ADD_LOCAL`.
    *
    * 2. It generates an action creator by the same name, that packages up any
    * arguments passed to it.  In this case:
    *
-   *   add(...args) {
-   *     return {type: 'TODOS:ADD', args};
+   *   addLocal(...args) {
+   *     return {type: 'TODOS:ADD_LOCAL', args};
    *   }
    *
    * 3. It registers the decorated function to be run when that action type is
@@ -157,7 +157,7 @@ export default new class Todos extends Interactions {
    * expanded to be the rest of the arguments.
    */
   @reducer
-  add(state, id, text, completed = false) {
+  addLocal(state, id, text, completed = false) {
     return [
       ...state,
       {id, text, completed},
@@ -165,7 +165,7 @@ export default new class Todos extends Interactions {
   }
 
   /**
-   * Toggle a todo's completion state.
+   * Toggle a todo's completion state, locally.
    *
    * You can also specify a custom action type, if you like.
    *
@@ -175,7 +175,7 @@ export default new class Todos extends Interactions {
    * even in production, consider passing explicit action types.
    */
   @reducer('CUSTOM_TODOS_TOGGLE')
-  toggle(state, id) {
+  toggleLocal(state, id) {
     return state.map(todo => {
       if (todo.id !== id) return todo;
       return {
@@ -183,6 +183,32 @@ export default new class Todos extends Interactions {
         completed: !todo.completed,
       };
     });
+  }
+
+  /**
+   * Add a todo and let the server know.
+   *
+   * This rounds off the example, in an effort to show off the pattern.  Note
+   * that this method is purely an action creator; there's nothing special going
+   * on here.
+   */
+  add(text, completed = false) {
+    return async (dispatch, _getState) => {
+      const todo = {id: uuid.v4(), text, completed, saving: true};
+      // Optimisticaly add the todo to the store for immediate user feedback.
+      dispatch(this.addLocal(todo));
+
+      try {
+        // Lets assume this succeeds for any 2xx; and we assume that means the
+        // todo was successfully persisted.
+        apiRequest('post', '/todos', {body: todo});
+        dispatch(this.markSaved(todo.id));
+      } catch (error) {
+        // TERRIBLE user experience, but this is just an example.
+        dispatch(flash.error(`Failed to save todo, please try again`));
+        dispatch(this.removeLocal(todo.id));
+      }
+    };
   }
 
 };
