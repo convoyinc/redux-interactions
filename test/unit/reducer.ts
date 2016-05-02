@@ -5,8 +5,8 @@ describe(`reducer`, () => {
   it(`registers an interaction reducer`, () => {
     class Counter extends Interactions {
       @reducer
-      add(state:number, amount:number = 1):number {
-        return state + amount;
+      add(scopedState:number, amount:number = 1):number {
+        return scopedState + amount;
       }
     }
     const instance = new Counter;
@@ -36,8 +36,8 @@ describe(`reducer`, () => {
   it(`Allows you to specify the action type`, () => {
     class Counter extends Interactions {
       @reducer('FOO_BAR')
-      add(state:number, amount:number = 1):number {
-        return state + amount;
+      add(scopedState:number, amount:number = 1):number {
+        return scopedState + amount;
       }
     }
     const instance = new Counter;

@@ -15,14 +15,18 @@
   // Until https://github.com/Microsoft/TypeScript/pull/5980 lands, this must be
   // filled in manually.
   "files": [
-    "src/index.ts",
     "src/Interactions.ts",
+    "src/combineInteractions.ts",
+    "src/index.ts",
     "src/reducer.ts",
+    "src/selector.ts",
     "test/env/base.ts",
     "test/env/unit.ts",
     "test/helpers/index.ts",
     "test/unit/Interactions.ts",
+    "test/unit/combineInteractions.ts",
     "test/unit/reducer.ts",
+    "test/unit/selector.ts",
     "typings/custom/function-name.d.ts",
     "typings/custom/unit-test-environment.d.ts",
     "typings/main.d.ts"

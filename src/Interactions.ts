@@ -10,6 +10,7 @@ import * as types from './types';
  * https://github.com/convoyinc/redux-interactions
  */
 export default class Interactions {
+  mountPoint:string[];
   initialState:any;
   // Set on the prototype, not instances.
   _interactionReducers:{[key:string]:types.Reducer};
