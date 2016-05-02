@@ -16,6 +16,7 @@
   // filled in manually.
   "files": [
     "src/Interactions.ts",
+    "src/combineInteractions.ts",
     "src/index.ts",
     "src/reducer.ts",
     "src/selector.ts",
@@ -23,6 +24,7 @@
     "test/env/unit.ts",
     "test/helpers/index.ts",
     "test/unit/Interactions.ts",
+    "test/unit/combineInteractions.ts",
     "test/unit/reducer.ts",
     "test/unit/selector.ts",
     "typings/custom/function-name.d.ts",
