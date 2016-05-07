@@ -138,4 +138,26 @@ describe(`Interactions`, () => {
 
   });
 
+  describe(`#scopedState`, () => {
+
+    it(`returns scoped state`, () => {
+      class Simple extends Interactions {
+        mountPoint:string[] = ['a', 'b'];
+      }
+      const instance = new Simple;
+
+      expect(instance.scopedState({a: {b: 1}})).to.eq(1);
+    });
+
+    it(`throws if mountPoint isn't set`, () => {
+      class Simple extends Interactions {}
+      const instance = new Simple;
+
+      expect(() => {
+        instance.scopedState({a: {b: 1}});
+      }).to.throw(/mount/);
+    });
+
+  });
+
 });

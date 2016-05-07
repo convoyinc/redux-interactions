@@ -45,6 +45,16 @@ export default class Interactions {
   }
 
   /**
+   * Returns the interactions' scoped state given the entire state object.
+   */
+  scopedState(state:any):any {
+    if (!this.mountPoint) {
+      throw new Error(`${this.constructor.name} has not been mounted; can't get scoped state`);
+    }
+    return _.get(state, this.mountPoint);
+  }
+
+  /**
    * Registers an interaction reducer.
    *
    * You will probably find it more convenient to use the @reducer decorator.
