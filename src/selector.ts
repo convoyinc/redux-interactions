@@ -30,7 +30,6 @@ export default function selector(_target:Object, _key?:string, descriptor?:Prope
 
 function _makeSelector(scopedSelector:(scopedState:Object, ...args:any[]) => any):Selector {
   return function interactionsSelector(state:Object, ...args:any[]):Selector {
-    // We rely on interactions objects auto-binding all methods (for `this`).
-    return scopedSelector(_.get(state, this.mountPoint), ...args);
+    return scopedSelector.call(this, _.get(state, this.mountPoint), ...args);
   };
 }
