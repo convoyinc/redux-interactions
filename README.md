@@ -262,6 +262,7 @@ export default new class Todos extends Interactions {
 Interactions need to be aware of where they are mounted in the store, since they are providing selectors.  In order to centralize the store's configuration, you will probably want to use `combineInteractions()` to mount them, and to set their mount points:
 
 ```js
+import { combineInteractions } from 'redux-interactions';
 import * as interactions from './interactions';
 
 /**
