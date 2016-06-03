@@ -28,7 +28,6 @@ export default class Interactions {
     // under normal use.
     this[this.constructor.name] = this.constructor;
 
-    // TODO: What if this goes more levels deep?
     // Auto-bind all methods declared on the subclass to this instance.
     for (const name of Object.getOwnPropertyNames(Object.getPrototypeOf(this))) {
       if (name === 'constructor') continue;
