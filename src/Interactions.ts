@@ -81,7 +81,7 @@ export default class Interactions {
 
   static _registerInteractionReducer(name:string, reducer:types.InteractionReducer, type?:string):types.PassthroughActionCreator {
     if (!type) {
-      type = uniqueType(name);
+      type = name;
     }
 
     // Define a constant containing the complete action type as ALL_CAPS.
