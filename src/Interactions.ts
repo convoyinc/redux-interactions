@@ -14,6 +14,7 @@ export default class Interactions {
   initialState:any;
   // Set on the prototype, not instances.
   _interactionReducers:{[key:string]:types.Reducer};
+  _instanceInteractionReducers:{[key:string]:types.Reducer} = {};
 
   constructor() {
     this.initialState = Object.create(null);
@@ -22,6 +23,7 @@ export default class Interactions {
     // under normal use.
     this[this.constructor.name] = this.constructor;
 
+    // TODO: What if this goes more levels deep?
     // Auto-bind all methods declared on the subclass to this instance.
     for (const name of Object.getOwnPropertyNames(Object.getPrototypeOf(this))) {
       if (name === 'constructor') continue;
@@ -30,6 +32,16 @@ export default class Interactions {
     }
     // As well as the public _instance_ API inherited from us.
     this.reducer = _bind(this, this.reducer);
+
+    // Add the class name to the action type, which we now know because it's
+    // getting instantiated
+    for (const key in this._interactionReducers) {
+      this._instanceInteractionReducers[this._actionType(key)] = this._interactionReducers[key];
+    }
+  }
+
+  _actionType(key) {
+    return uniqueType(`${this.constructor.name}:${key}`);
   }
 
   /**
@@ -37,8 +49,8 @@ export default class Interactions {
    */
   reducer(state:any, action:types.Action):any {
     state = state === undefined ? this.initialState : state;
-    if (!this._interactionReducers) return state;
-    const interactionReducer = this._interactionReducers[action.type];
+    if (!this._instanceInteractionReducers) return state;
+    const interactionReducer = this._instanceInteractionReducers[action.type];
     if (!interactionReducer) return state;
     if (!Array.isArray((<types.PassthroughAction>action).args)) return state;
     return interactionReducer.call(this, state, ...(<types.PassthroughAction>action).args);
@@ -66,7 +78,7 @@ export default class Interactions {
 
   static _registerInteractionReducer(name:string, reducer:types.InteractionReducer, type?:string):types.PassthroughActionCreator {
     if (!type) {
-      type = uniqueType(`${this.prototype.constructor.name}:${name}`);
+      type = name;
     }
 
     // Define a constant containing the complete action type as ALL_CAPS.
@@ -81,7 +93,7 @@ export default class Interactions {
     this.prototype._interactionReducers[type] = reducer;
 
     return function actionCreator(...args:any[]):types.PassthroughAction {
-      return {type, args};
+      return {type: this._actionType(type), args};
     };
   }
 
