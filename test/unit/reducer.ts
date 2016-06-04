@@ -43,7 +43,7 @@ describe(`reducer`, () => {
     const instance = new Counter;
     const add:Function = instance.add;
 
-    expect(add().type).to.eql('FOO_BAR');
+    expect(add().type).to.eql('Counter:FOO_BAR');
     expect(instance.reducer(1, add())).to.eql(2);
     expect(instance.reducer(1, add(5))).to.eql(6);
   });
