@@ -11,19 +11,17 @@ import * as types from './types';
  */
 export default class Interactions {
   mountPoint:string[];
-  initialState:any;
+  initialState:any = Object.create(null);
   // Set on the prototype, not instances.
   _interactionReducers:{[key:string]:types.Reducer};
   // This instance's reducers map, separate from _interactionReducer
   // so it can have a different type (or key in this map) than a base
   // class's reducer
-  _instanceInteractionReducers:{[key:string]:types.Reducer} = {};
+  _instanceInteractionReducers:{[key:string]:types.Reducer} = Object.create(null);
   // Maintains a mapping from @reducer function name to unique action type
-  _actionTypes:{[key:string]:string} = {};
+  _actionTypes:{[key:string]:string} = Object.create(null);
 
   constructor() {
-    this.initialState = Object.create(null);
-
     // Register the class as a property of the instance so it is "exported"
     // under normal use.
     this[this.constructor.name] = this.constructor;
@@ -80,10 +78,7 @@ export default class Interactions {
     this.prototype[name] = this._registerInteractionReducer(name, reducer);
   }
 
-  static _registerInteractionReducer(name:string, reducer:types.InteractionReducer, type?:string):types.PassthroughActionCreator {
-    if (!type) {
-      type = name;
-    }
+  static _registerInteractionReducer(name:string, reducer:types.InteractionReducer, type:string = name):types.PassthroughActionCreator {
 
     // Allow inheritance of interaction reducers.
     if (!Object.getOwnPropertyDescriptor(this.prototype, '_interactionReducers')) {
