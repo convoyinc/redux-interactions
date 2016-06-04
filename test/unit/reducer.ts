@@ -61,14 +61,13 @@ describe(`reducer`, () => {
       subtract(scopedState:number, amount:number = 1):number {
         return scopedState - amount;
       }
-
     }
     const instance = new SpecificCounter;
     const add:Function = instance.add.bind(instance);
     const subtract:Function = instance.subtract.bind(instance);
 
-    expect(add().type).to.eql('SpecificCounter:add');
-    expect(subtract().type).to.eql('SpecificCounter:subtract');
+    expect(add().type).to.eql((<any>instance).ADD);
+    expect(subtract().type).to.eql((<any>instance).SUBTRACT);
     expect(instance.reducer(1, add())).to.eql(2);
     expect(instance.reducer(1, add(5))).to.eql(6);
     expect(instance.reducer(1, subtract())).to.eql(0);
