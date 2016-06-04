@@ -48,4 +48,31 @@ describe(`reducer`, () => {
     expect(instance.reducer(1, add(5))).to.eql(6);
   });
 
+  it(`Enables inheritance of interactions`, () => {
+    class Counter extends Interactions {
+      @reducer
+      add(scopedState:number, amount:number = 1):number {
+        return scopedState + amount;
+      }
+    }
+
+    class SpecificCounter extends Counter {
+      @reducer
+      subtract(scopedState:number, amount:number = 1):number {
+        return scopedState - amount;
+      }
+
+    }
+    const instance = new SpecificCounter;
+    const add:Function = instance.add.bind(instance);
+    const subtract:Function = instance.subtract.bind(instance);
+
+    expect(add().type).to.eql('SpecificCounter:add');
+    expect(subtract().type).to.eql('SpecificCounter:subtract');
+    expect(instance.reducer(1, add())).to.eql(2);
+    expect(instance.reducer(1, add(5))).to.eql(6);
+    expect(instance.reducer(1, subtract())).to.eql(0);
+    expect(instance.reducer(1, subtract(5))).to.eql(-4);
+  });
+
 });
