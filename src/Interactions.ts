@@ -18,6 +18,8 @@ export default class Interactions {
   // so it can have a different type (or key in this map) than a base
   // class's reducer
   _instanceInteractionReducers:{[key:string]:types.Reducer} = {};
+  // Maintains a mapping from @reducer function name to unique action type
+  _actionTypes:{[key:string]:string} = {};
 
   constructor() {
     this.initialState = Object.create(null);
@@ -39,7 +41,7 @@ export default class Interactions {
     // getting instantiated (vs a base class name)
     for (const key in this._interactionReducers) {
       // Make globally unique
-      const type = uniqueType(`${this.constructor.name}:${key}`);
+      const type = this._actionTypes[key] = uniqueType(`${this.constructor.name}:${key}`);
       // Define a constant containing the complete action type as ALL_CAPS.
       this[_.snakeCase(key).toUpperCase()] = type;
       this._instanceInteractionReducers[type] = this._interactionReducers[key];
@@ -92,7 +94,7 @@ export default class Interactions {
     this.prototype._interactionReducers[type] = reducer;
 
     return function actionCreator(...args:any[]):types.PassthroughAction {
-      return {type: this[_.snakeCase(type).toUpperCase()], args};
+      return {type: this._actionTypes[type], args};
     };
   }
 
