@@ -22,18 +22,16 @@ export default class Interactions {
   _actionTypes:{[key:string]:string} = Object.create(null);
 
   constructor() {
-    // Register the class as a property of the instance so it is "exported"
-    // under normal use.
-    this[this.constructor.name] = this.constructor;
-
     // Auto-bind all methods declared on the subclass to this instance.
-    for (const name of Object.keys(this)) {
+    for (const name in this) {
       if (name === 'constructor') continue;
       if (typeof this[name] !== 'function') continue;
       this[name] = _bind(this, this[name]);
     }
-    // As well as the public _instance_ API inherited from us.
-    this.reducer = _bind(this, this.reducer);
+
+    // Register the class as a property of the instance so it is "exported"
+    // under normal use.
+    this[this.constructor.name] = this.constructor;
 
     // Add the class name to the action type, which we now know because it's
     // getting instantiated (vs a base class name)

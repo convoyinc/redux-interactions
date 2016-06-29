@@ -32,6 +32,22 @@ describe(`Interactions`, () => {
       expect(instance.notAMethod).to.eql('abc123');
     });
 
+    it(`auto binds any inherited methods`, () => {
+      class Autobind extends Interactions {
+        notAMethod:string = 'abc123';
+        doStuff():this { return this; }
+      }
+      class MoarAutobind extends Autobind {
+        doMoarStuff():this { return this; }
+      }
+      const instance = new MoarAutobind;
+      const doStuff = instance.doStuff;
+      const doMoarStuff = instance.doMoarStuff;
+
+      expect(doStuff()).to.equal(instance);
+      expect(doMoarStuff()).to.equal(instance);
+    });
+
   });
 
   describe(`.addInteractionReducer`, () => {
