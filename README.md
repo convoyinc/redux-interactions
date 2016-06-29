@@ -288,14 +288,19 @@ Another very common pattern that you will likely have is that you want to store 
 `EntityCollection`s give you the following actions:
 
 `setAll(entities)`: Replaces the contents of the collection with a new set of entities.
+
 `set(entities)`: Adds entities to the collection, replacing previous copies of them if present.
+
 `update(partialEntities)`: Merges data changes into existing entities (say, for changing a particular property).
+
 `delete(ids)`: Removes entities from the collection.
 
 As well as the following selectors:
 
 `getAll`: Retrieves the entire id -> entity map.
+
 `getAllIds`: Returns the ids of all entities present in the collection.
+
 `getById`: Retreives an individual entity.
 
 At its most basic use, you can just instantiate it:
@@ -329,7 +334,7 @@ class Todo extends Model {
   }
 }
 
-const todos = new class TodoCollection {
+const todos = new class TodoCollection extends EntityCollection {
   Model = Todo;
 };
 const store = createStore(combineInteractions({
