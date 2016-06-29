@@ -22,12 +22,7 @@ export default class Interactions {
   _actionTypes:{[key:string]:string} = Object.create(null);
 
   constructor() {
-    // Auto-bind all methods declared on the subclass to this instance.
-    for (const name in this) {
-      if (name === 'constructor') continue;
-      if (typeof this[name] !== 'function') continue;
-      this[name] = _bind(this, this[name]);
-    }
+    _autobind(this);
 
     // Register the class as a property of the instance so it is "exported"
     // under normal use.
@@ -99,4 +94,29 @@ function _bind<T>(target:{}, method:T):T {
     bound[name] = method[name];
   }
   return bound;
+}
+
+/**
+ * Autobinds all functions present in `source` to `target`, and walks up the
+ * prototype chain of `source`.
+ */
+function _autobind(target:{}):void {
+  const names:{[key:string]:boolean} = {};
+  _fillBindablePropertyNames(target, names);
+
+  for (const key of _.keys(names)) {
+    target[key] = _bind(target, target[key]);
+  }
+}
+
+function _fillBindablePropertyNames(target:{}, names:{[key:string]:boolean}):void {
+  for (const key of Object.getOwnPropertyNames(target)) {
+    if (key === 'constructor') continue;
+    if (!_.isFunction(target[key])) continue;
+    names[key] = true;
+  }
+  const nextTarget = Object.getPrototypeOf(target);
+  if (nextTarget !== Object.prototype) {
+    _fillBindablePropertyNames(nextTarget, names);
+  }
 }
