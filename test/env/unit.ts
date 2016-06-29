@@ -1,4 +1,5 @@
 import * as chai from 'chai';
+import * as chaiSubset from 'chai-subset';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 
@@ -15,6 +16,14 @@ import './base';
 //   * expect(aSpy).to.have.been.calledWith('abc', 123)
 //
 chai.use(sinonChai);
+
+// ## http://chaijs.com/plugins/chai-subset
+//
+// Adds object subset assertions.  TL;DR:
+//
+//   * expect(anObject).to.containSubset({abc: 123})
+//
+chai.use(chaiSubset);
 
 // # Sinon
 
