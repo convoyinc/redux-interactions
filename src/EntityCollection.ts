@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import * as nanoEqual from 'nano-equal';
+import * as deepUpdate from 'deep-update';
 
 import Interactions from './Interactions';
 import reducer from './reducer';
@@ -16,6 +17,21 @@ export interface ModelConstructor {
  */
 export default class EntityCollection<T> extends Interactions {
 
+  /**
+   * Ensures that all entities managed by the collection are instances of the
+   * Model.
+   *
+   * You generally want to call this after restoring state, and before
+   * initializing the store.
+   */
+  transformState(fullState:{}):{} {
+    const entities:EntityMap<T> = this.getAll(fullState);
+    if (_.size(entities) === 0) return fullState;
+
+    const transformed = _.mapValues(entities, e => this.transform(e));
+    return deepUpdate(fullState, this.mountPoint, {$set: transformed});
+  }
+
   // Common Selectors
 
   @selector
@@ -29,8 +45,8 @@ export default class EntityCollection<T> extends Interactions {
   }
 
   @selector
-  getById(scopedState:EntityMap<T>, id:string):T {
-    return scopedState[id];
+  getById(scopedState:EntityMap<T>, id:string):T|void {
+    return scopedState[id] || null;
   }
 
   // Common Reducers
@@ -65,7 +81,7 @@ export default class EntityCollection<T> extends Interactions {
     if (!_.isArray(deltas)) deltas = [<T>deltas];
 
     const entities = _.map(deltas, delta => {
-      const identity = this.getIdentity(delta)
+      const identity = this.getIdentity(delta);
       const existing = scopedState[identity];
       if (!existing) {
         throw new Error(
@@ -115,6 +131,8 @@ export default class EntityCollection<T> extends Interactions {
     if (!this.Model) return entity;
     return <T>this.Model.toModel(entity);
   }
+
+  // Private
 
   /**
    * Constructs an EntityMap for `entities`, but is careful to only create new

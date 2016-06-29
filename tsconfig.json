@@ -2,6 +2,10 @@
   "compilerOptions": {
     "charset": "utf-8",
     "declaration": true,
+    "lib": [
+      "es2015",
+      "dom" // For sinon's typedefs
+    ],
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "module": "commonjs",

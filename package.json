@@ -38,6 +38,7 @@
     "mocha-circleci-reporter": "^0.0.1",
     "mocha-clean": "^1.0.0",
     "react": "^15.1.0",
+    "redux": "^3.5.2",
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0",
     "ts-node": "^0.9.3",

@@ -1,3 +1,4 @@
+export { default as EntityCollection } from './EntityCollection';
 export { default as Interactions } from './Interactions';
 export { default as combineInteractions } from './combineInteractions';
 export { default as reducer } from './reducer';
