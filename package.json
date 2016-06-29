@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "chai-subset": "^1.2.2",
     "mocha": "^2.5.3",
     "mocha-circleci-reporter": "^0.0.1",
     "mocha-clean": "^1.0.0",

@@ -279,3 +279,66 @@ const interactionsReducer = combineInteractions({
   },
 });
 ```
+
+
+## Collections of Things
+
+Another very common pattern that you will likely have is that you want to store collections of entities in the store.  Users, Todos, etc.  Each such collection generally needs a standard set of CRUD actions.  To cover this need, `redux-interactions` also provides an `EntityCollection` class (which extends `Interactions`).  The collection maintains a map of entities, keyed by their id (by default, the `id` property of an entity).
+
+`EntityCollection`s give you the following actions:
+
+`setAll(entities)`: Replaces the contents of the collection with a new set of entities.
+`set(entities)`: Adds entities to the collection, replacing previous copies of them if present.
+`update(partialEntities)`: Merges data changes into existing entities (say, for changing a particular property).
+`delete(ids)`: Removes entities from the collection.
+
+As well as the following selectors:
+
+`getAll`: Retrieves the entire id -> entity map.
+`getAllIds`: Returns the ids of all entities present in the collection.
+`getById`: Retreives an individual entity.
+
+At its most basic use, you can just instantiate it:
+
+```js
+import { EntityCollection, combineInteractions } from 'redux-interactions';
+
+const todos = new EntityCollection;
+const store = createStore(combineInteractions({
+  entities: {todos},
+}));
+
+store.dispatch(todos.setAll([
+  {id: 'abc123', text: 'Use collections!', completed: false},
+]));
+const aTodo = todos.getById(store.getState(), 'abc123');
+```
+
+### Model Classes
+
+You can also provide a model class to wrap the underlying data with.  This is very handy for exposing utility methods on your raw data.  However, you **must** be careful to not mutate any state via the model class!
+
+The only requirement of a model class is that it staticly defines a `toModel` static method.  `redux-interactions` also exposes a base `Model` class that provides this for you, and freezes instances.
+
+```js
+import { EntityCollection, Model, combineInteractions } from 'redux-interactions';
+
+class Todo extends Model {
+  isExclamatory() {
+    return this.text.includes('!');
+  }
+}
+
+const todos = new class TodoCollection {
+  Model = Todo;
+};
+const store = createStore(combineInteractions({
+  entities: {todos},
+}));
+
+store.dispatch(todos.setAll([
+  {id: 'abc123', text: 'Use collections!', completed: false},
+]));
+const aTodo = todos.getById(store.getState(), 'abc123');
+aTodo.isExclamatory(); // True!
+```
