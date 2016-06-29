@@ -1,19 +1,4 @@
-/// <reference path="../main/ambient/chai/index.d.ts" />
-/// <reference path="../main/ambient/sinon/index.d.ts" />
+/// <reference path="global-object.d.ts" />
 
-declare var expect:Chai.ExpectStatic;
-declare var sandbox:Sinon.SinonSandbox;
-
-declare module NodeJS {
-  export interface Global {
-    expect:Chai.ExpectStatic;
-    sandbox:Sinon.SinonSandbox;
-  }
-}
-
-declare module Chai {
-  export interface Config {
-    showDiff:boolean;
-    truncateThreshold:number;
-  }
-}
+declare var expect:typeof global.expect;
+declare var sandbox:typeof global.sandbox;
