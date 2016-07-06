@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import * as uniqueType from 'unique-type';
+import * as protobind from 'protobind';
 
 import * as types from './types';
 
@@ -22,7 +23,7 @@ export default class Interactions {
   _actionTypes:{[key:string]:string} = Object.create(null);
 
   constructor() {
-    _autobind(this);
+    protobind(this);
 
     // Register the class as a property of the instance so it is "exported"
     // under normal use.
@@ -86,37 +87,4 @@ export default class Interactions {
     };
   }
 
-}
-
-function _bind<T>(target:{}, method:T):T {
-  const bound = (<any>method).bind(target);
-  for (const name in method) {
-    bound[name] = method[name];
-  }
-  return bound;
-}
-
-/**
- * Autobinds all functions present in `source` to `target`, and walks up the
- * prototype chain of `source`.
- */
-function _autobind(target:{}):void {
-  const names:{[key:string]:boolean} = {};
-  _fillBindablePropertyNames(target, names);
-
-  for (const key of _.keys(names)) {
-    target[key] = _bind(target, target[key]);
-  }
-}
-
-function _fillBindablePropertyNames(target:{}, names:{[key:string]:boolean}):void {
-  for (const key of Object.getOwnPropertyNames(target)) {
-    if (key === 'constructor') continue;
-    if (!_.isFunction(target[key])) continue;
-    names[key] = true;
-  }
-  const nextTarget = Object.getPrototypeOf(target);
-  if (nextTarget !== Object.prototype) {
-    _fillBindablePropertyNames(nextTarget, names);
-  }
 }
