@@ -30,6 +30,13 @@ export default function selector(_target:Object, _key?:string, descriptor?:Prope
 
 function _makeSelector(scopedSelector:(scopedState:Object, ...args:any[]) => any):Selector {
   return function interactionsSelector(state:Object, ...args:any[]):Selector {
+    if (!_.has(state, this.mountPoint)) {
+      throw new TypeError(
+        `Called @selector with invalid state object (no key '${this.mountPoint}'). ` +
+        `Perhaps a @selector method is calling another @selector method? Or the ` +
+        `interaction isn't mounted at all.`
+      );
+    }
     return scopedSelector.call(this, _.get(state, this.mountPoint), ...args);
   };
 }
