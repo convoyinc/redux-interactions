@@ -45,7 +45,11 @@ describe(`EntityCollection`, () => {
     });
 
     it(`doesn't mind if there are no entities`, () => {
-      const state = {};
+      const state = {
+        entities: {
+          collection: undefined,
+        },
+      };
       const transformed = instance.transformState(state);
       expect(transformed).to.equal(state);
     });
