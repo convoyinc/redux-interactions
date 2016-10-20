@@ -108,7 +108,7 @@ export default class EntityCollection<T> extends Interactions {
    * If a model is specified, it will be used to transform entities into
    * instances of that model, rather than storing plain old objects.
    */
-  Model?:ModelConstructor;
+  Model:ModelConstructor = undefined;
 
   /**
    * Retrieves the identity of a particular entity.
