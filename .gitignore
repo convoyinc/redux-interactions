@@ -4,5 +4,6 @@ npm-debug.log*
 
 # TypeScript
 /dist/
-/typings/*
-!/typings/custom/
+
+# Mac OS
+.DS_Store
