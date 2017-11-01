@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import Interactions from './Interactions';
 
 type Selector = (state:Object, ...args:any[]) => any;
 
@@ -29,7 +30,7 @@ export default function selector(_target:Object, _key?:string, descriptor?:Prope
 }
 
 function _makeSelector(scopedSelector:(scopedState:Object, ...args:any[]) => any):Selector {
-  return function interactionsSelector(state:Object, ...args:any[]):Selector {
+  return function interactionsSelector(this:Interactions, state:Object, ...args:any[]):Selector {
     if (!_.has(state, this.mountPoint)) {
       throw new TypeError(
         `Called @selector with invalid state object (no path '${this.mountPoint}'). ` +
