@@ -6,3 +6,6 @@ npm-debug.log*
 /dist/
 /typings/*
 !/typings/custom/
+
+# Mac OS
+.DS_Store
