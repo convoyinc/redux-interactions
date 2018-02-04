@@ -39,4 +39,3 @@ export default function thunk(_target:any, _key?:string, descriptor?:PropertyDes
     };
   };
 }
-
