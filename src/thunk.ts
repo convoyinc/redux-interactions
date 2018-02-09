@@ -32,6 +32,9 @@ export default function thunk(_target:any, _key?:string, descriptor?:PropertyDes
       throw new TypeError(`@thunk can only decorate methods with one or zero arguments`);
     }
     return (dispatch, getState, context) => {
+      if (!context) {
+        context = {};
+      }
       // We want to maintain the same context object
       context.dispatch = dispatch;
       context.getState = getState;
