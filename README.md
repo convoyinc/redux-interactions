@@ -121,7 +121,7 @@ The interesting outcome of this approach is that it subtly changes your approach
 Now that we have that pattern in place, we can look at codifying it a bit more.  Notice all the boilerplate surrounding state actions?  Yeah, we can do better.
 
 ```js
-import { Interactions, reducer, selector } from 'redux-interactions';
+import { Interactions, reducer, selector, thunk } from 'redux-interactions';
 
 /**
  * The `Interactions` class helps you manage the boilerplate of a reducer that
@@ -178,23 +178,22 @@ export default new class Todos extends Interactions {
    * that this method is purely an action creator; there's nothing special going
    * on here.
    */
-  add(text, completed = false) {
-    return async (dispatch, _getState) => {
-      const todo = {id: uuid.v4(), text, completed, saving: true};
-      // Optimisticaly add the todo to the store for immediate user feedback.
-      dispatch(this.addLocal(todo));
+  @thunk
+  add({ text, completed = false }, { dispatch }) {
+    const todo = {id: uuid.v4(), text, completed, saving: true};
+    // Optimisticaly add the todo to the store for immediate user feedback.
+    dispatch(this.addLocal(todo));
 
-      try {
-        // Lets assume this succeeds for any 2xx; and we assume that means the
-        // todo was successfully persisted.
-        apiRequest('post', '/todos', {body: todo});
-        dispatch(this.markSaved(todo.id));
-      } catch (error) {
-        // TERRIBLE user experience, but this is just an example.
-        alert(`Failed to save todo, please try again`);
-        dispatch(this.removeLocal(todo.id));
-      }
-    };
+    try {
+      // Lets assume this succeeds for any 2xx; and we assume that means the
+      // todo was successfully persisted.
+      apiRequest('post', '/todos', {body: todo});
+      dispatch(this.markSaved(todo.id));
+    } catch (error) {
+      // TERRIBLE user experience, but this is just an example.
+      alert(`Failed to save todo, please try again`);
+      dispatch(this.removeLocal(todo.id));
+    }
   }
 
   /**

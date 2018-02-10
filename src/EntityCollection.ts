@@ -56,8 +56,8 @@ export default class EntityCollection<T> extends Interactions {
    */
   @reducer
   setAll(scopedState:EntityMap<T>, entities:T|T[]):EntityMap<T> {
-    if (!_.isArray(entities)) entities = [<T>entities];
-    return this._transformAndIndexUpdates(entities, scopedState);
+    const entityArray = _.isArray(entities) ? entities as T[] : [<T>entities];
+    return this._transformAndIndexUpdates(entityArray, scopedState);
   }
 
   /**
@@ -66,8 +66,8 @@ export default class EntityCollection<T> extends Interactions {
    */
   @reducer
   set(scopedState:EntityMap<T>, entities:T|T[]):EntityMap<T> {
-    if (!_.isArray(entities)) entities = [<T>entities];
-    return this._transformAndIndexUpdates(entities, scopedState, true);
+    const entityArray = _.isArray(entities) ? entities as T[] : [<T>entities];
+    return this._transformAndIndexUpdates(entityArray, scopedState, true);
   }
 
   /**

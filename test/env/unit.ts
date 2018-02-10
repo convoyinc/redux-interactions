@@ -1,7 +1,8 @@
 import * as chai from 'chai';
-import * as chaiSubset from 'chai-subset';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
+
+import chaiSubset = require('chai-subset');
 
 import { withMocha } from '../helpers';
 
