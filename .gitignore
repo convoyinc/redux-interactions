@@ -6,3 +6,4 @@ npm-debug.log*
 /dist/
 /typings/*
 !/typings/custom/
+!/typings/global/
